@@ -51,7 +51,10 @@ void setup(){
   eventButton.setPressedState(LOW);
 
   pinMode(led, OUTPUT);
+  delay(100);
   digitalWrite(led, 0);
+
+  delay(5000);
   
   //Connect to the WiFi network
   connectToWiFi(networkName, networkPswd);
