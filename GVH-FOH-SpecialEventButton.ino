@@ -32,7 +32,7 @@ WiFiUDP udp;
 
 bool buttonState = false;
 
-const int led = LED_BUILTIN;
+const int builtInLed = LED_BUILTIN;
 const int button = A0;
 
 
@@ -50,9 +50,9 @@ void setup(){
   eventButton.interval(50);
   eventButton.setPressedState(LOW);
 
-  pinMode(led, OUTPUT);
+  pinMode(builtInLed, OUTPUT);
   delay(100);
-  digitalWrite(led, 0);
+  digitalWrite(builtInLed, 0);
 
   delay(5000);
   
@@ -75,10 +75,10 @@ void loop(){
 
     eventTriggered();
     repeatTriggerTimer = 0;
-    digitalWrite(led, HIGH); 
+    digitalWrite(builtInLed, HIGH); 
   }
   else if (eventButton.rose()) {
-    digitalWrite(led, LOW); 
+    digitalWrite(builtInLed, LOW); 
   }
 
   //Wait for 1 second
