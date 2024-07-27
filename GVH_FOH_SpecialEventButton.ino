@@ -35,6 +35,10 @@ bool buttonState = false;
 const int builtInLed = LED_BUILTIN;
 const int button = A0;
 
+const int buttonLed = SDA;
+
+const int buttonPin = 0;
+const int PIN = 1;
 
 elapsedMillis repeatTriggerTimer;
 long unsigned int repeatTriggerTime = 15000; // 15 seconds
@@ -54,12 +58,22 @@ void setup(){
   delay(100);
   digitalWrite(builtInLed, 0);
 
+  pinMode(buttonLed, OUTPUT);
+  digitalWrite(buttonLed, LOW);
+
   delay(5000);
   
   //Connect to the WiFi network
   connectToWiFi(networkName, networkPswd);
 
   repeatTriggerTimer = repeatTriggerTime; // allow for button push immediately after boot
+  
+  //Initialize Arcade buttonLed as an output
+  pinMode(buttonLed, OUTPUT);
+
+  //buttonLed Button has been pressed
+  digitalWrite(PIN, HIGH);
+
 }
 
 void loop(){
@@ -73,7 +87,7 @@ void loop(){
 
   if (eventButton.fell() && connected) {
 
-    eventTriggered();
+    //eventTriggered();
     repeatTriggerTimer = 0;
     digitalWrite(builtInLed, HIGH); 
   }
@@ -83,6 +97,30 @@ void loop(){
 
   //Wait for 1 second
   delay(1);
+  // the loop function runs over and over again forever
+
+  //Read button state
+  buttonState = digitalRead(buttonPin);
+
+  //Blink buttonLed, button has not been pressed
+  if (buttonState == LOW) {
+  digitalWrite(buttonLed, HIGH);  // turn the LED on (HIGH is the voltage level)
+  delay(5000);                      // wait for 5 seconds
+  digitalWrite(buttonLed, LOW);   // turn the LED off by making the voltage LOW
+  delay(1000);                      // wait for a second
+  }
+
+  //If button is pressed, buttonLed blinks fast for 15 seconds
+  if (buttonState == HIGH) {
+    digitalWrite(buttonLed, HIGH);  // turn the LED on (HIGH is the voltage level)
+    delay(0500);                      // wait for 0.5 second
+    digitalWrite(buttonLed, LOW);   // turn the LED off by making the voltage LOW
+    delay(0500);                      // wait for 0.5 second
+  }
+
+  //Just need to get the flash to last for 15 seconds after the button has been released.
+
+
 }
 
 void eventTriggered() {
